@@ -1,0 +1,4 @@
+config:
+  aws:region: eu-central-1
+  cloud-aws:functionIncludePackages: test
+  cloud:provider: aws
