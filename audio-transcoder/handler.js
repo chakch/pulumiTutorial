@@ -1,7 +1,9 @@
 
-const polly = require('./Polly');
-const s3 = require('./S3');
-module.exports.hello = (event, context, callback) => {
+
+const transcoder = (event, context, callback) => {
+
+    const polly = require('./Polly');
+    const s3 = require('./S3');
 
     console.log(event);
     event.Records.forEach( record => {
@@ -19,3 +21,6 @@ module.exports.hello = (event, context, callback) => {
     callback(null, 'audio transcoder ok');
 
 };
+
+exports.transcoder = transcoder;
+
