@@ -42,11 +42,11 @@ const rolePolicy = new aws.iam.RolePolicy("myrolepolicy", {
     })
 });
 
-const event = new cloud.timer.daily("reader",reader);
+//const event = new cloud.timer.daily("reader",reader);
 
 const test = new aws.lambda.Function("reader",{
     code: new pulumi.asset.AssetArchive({
-        "file": new pulumi.asset.FileArchive(
+        ".": new pulumi.asset.FileArchive(
             "rss-reader",
         ),
     }),
@@ -57,5 +57,5 @@ const test = new aws.lambda.Function("reader",{
 //const test = new aws.dynamodb.TableEventSubscription("test",tables,audioReader,{batchSize:100,startingPosition:"LATEST"})
 
 exports.tables = tables;
-exports.event = event;
+//exports.event = event;
 exports.test = test;
