@@ -1,9 +1,8 @@
+const polly = require('./Polly');
+const s3 = require('./S3');
 
 
 const transcoder = (event, context, callback) => {
-
-    const polly = require('./Polly');
-    const s3 = require('./S3');
 
     console.log(event);
     event.Records.forEach( record => {

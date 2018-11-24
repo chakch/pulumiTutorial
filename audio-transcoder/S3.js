@@ -9,7 +9,8 @@ const saveFile = (file) => {
         Body : file,
         ContentType:'audio/mp3'
     };
-    return S3.upload(params).promise();
+    return S3.upload(params).promise()
+        .catch(e => console.log({e}));
 };
 
 s3.saveFile = saveFile;

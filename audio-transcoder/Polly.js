@@ -1,7 +1,4 @@
 const AWS = require('aws-sdk');
-//const Stream = require('stream')
-//const Fs = require('fs');
-
 
 const convertTextToVoice = function(data){
     const polly = new AWS.Polly();

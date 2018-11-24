@@ -1,0 +1,27 @@
+{
+  "name": "hello-aws-javascript",
+  "main": "handler.js",
+  "dependencies": {
+    "@pulumi/aws": "dev",
+    "@pulumi/aws-serverless": "^0.15.1",
+    "@pulumi/cloud": "^0.16.1",
+    "@pulumi/cloud-aws": "^0.16.1",
+    "@pulumi/pulumi": "^0.16.5-dev-1542420265-gc63a99ac",
+    "aws-sdk": "^2.323.0",
+    "dynogels": "^9.0.0",
+    "feedparser": "^2.2.9",
+    "feedparser-promised": "^2.0.0",
+    "html-entities": "^1.2.1",
+    "joi": "^14.0.0",
+    "request": "^2.88.0",
+    "rss-parser": "^3.5.2",
+    "striptags": "^3.1.1",
+    "unfluff": "^3.2.0",
+    "uuid-by-string": "^0.6.0",
+    "vogels": "^2.2.0",
+    "vogels-promisified": "^2.2.4"
+  },
+  "devDependencies": {
+    "uuid": "^3.3.2"
+  }
+}
