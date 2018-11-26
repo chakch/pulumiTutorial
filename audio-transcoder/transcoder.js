@@ -1,9 +1,7 @@
 const polly = require('./Polly');
 const s3 = require('./S3');
 
-
-const transcoder = (event, context, callback) => {
-
+const handler = (event, context, callback) => {
     console.log(event);
     const res = event.Records.map( record => {
         if(record.eventName !== 'REMOVE'){
@@ -25,5 +23,5 @@ const transcoder = (event, context, callback) => {
     callback(null, 'audio transcoder ok');
 };
 
-exports.transcoder = transcoder;
+exports.handler = handler;
 

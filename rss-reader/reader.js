@@ -1,9 +1,9 @@
 const getUuidByString = require('uuid-by-string');
 const AWS = require('aws-sdk');
-const rssReader = require('./RssReader');
+const rssReader = require('./rssReader');
 const articleTable = process.env.ARTICLE_TABLE;
-const hello = () => {
 
+const handler = () => {
     return rssReader.read()
         .then((result) => {
             return result.map(art => {
@@ -26,10 +26,9 @@ const hello = () => {
                         TableName: articleTable
                     };
                     return d.putItem(params).promise().catch((e) => console.log({e}))
-                    //return Article.create({...art, id: getUuidByString(art.title)});
                 }
             });
         })
         .catch((e) => console.log(e));
 };
-exports.hello = hello
+exports.handler = handler

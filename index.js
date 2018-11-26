@@ -50,7 +50,7 @@ const rssReader = new aws.lambda.Function("rssReader",{
         ),
     }),
     role: rssReaderRole.arn,
-    handler: "handler.hello",
+    handler: "reader.handler",
     runtime: aws.lambda.NodeJS8d10Runtime,
     environment:{
         variables:{
@@ -96,7 +96,7 @@ const audioTranscoder = new aws.lambda.Function("audioTranscoder",{
         ),
     }),
     role: audioTrancoderRole.arn,
-    handler: "handler.transcoder",
+    handler: "transcoder.handler",
     runtime: aws.lambda.NodeJS8d10Runtime,
     timeout:30,
     environment:{
