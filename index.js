@@ -1,6 +1,9 @@
 const aws = require("@pulumi/aws");
 const pulumi = require('@pulumi/pulumi');
 
+
+const bucket = new aws.s3.Bucket("mchaaben-bucket-lab");
+
 const article = new aws.dynamodb.Table("article",{
    attributes: [
        {name: "id", type: "S"}
@@ -96,7 +99,12 @@ const audioTranscoder = new aws.lambda.Function("audioTranscoder",{
     role: audioTrancoderRole.arn,
     handler: "handler.transcoder",
     runtime: aws.lambda.NodeJS8d10Runtime,
-    timeout:30
+    timeout:30,
+    environment:{
+        variables:{
+            BUCKET_NAME: bucket.bucket
+        }
+    },
 });
 
 const dynamoEvent = new aws.dynamodb.TableEventSubscription("transcoderTrigger",article,audioTranscoder,{batchSize:100,startingPosition:"LATEST"})
@@ -105,6 +113,7 @@ const rssReaderEvent = new aws.cloudwatch.EventRule("event",{scheduleExpression:
 
 const test = new aws.cloudwatch.EventRuleEventSubscription("event",rssReaderEvent,rssReader);
 
+exports.bucket = bucket;
 exports.article = article;
 exports.dynamoEvent = dynamoEvent;
 exports.rssReader = rssReader;

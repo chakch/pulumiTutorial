@@ -1,9 +1,10 @@
 const AWS = require('aws-sdk');
+const bucket = process.env.BUCKET_NAME;
 
 const saveFile = (id,file) => {
     const S3 = new AWS.S3();
     let params = {
-        Bucket : "serverless-xke-demo-file-saver",
+        Bucket : bucket,
         Key : `${id}.mp3`,
         Body : file,
         ContentType:'audio/mp3'
