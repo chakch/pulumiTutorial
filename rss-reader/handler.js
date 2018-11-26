@@ -43,7 +43,7 @@ const hello = () => {
                             }
                         },
                         ReturnConsumedCapacity: "TOTAL",
-                        TableName: "article-d8dc11e"
+                        TableName: "article-3930df2"
                     };
                     return d.putItem(params).promise().catch((e) => console.log({e}))
                     //return Article.create({...art, id: getUuidByString(art.title)});

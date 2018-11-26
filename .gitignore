@@ -2,3 +2,5 @@
 rss-reader/node_modules/
 rss-reader/package-lock.json
 .idea/workspace.xml
+audio-transcoder/node_modules/
+audio-transcoder/package-lock.json

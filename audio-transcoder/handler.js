@@ -18,7 +18,6 @@ const transcoder = (event, context, callback) => {
     });
 
     callback(null, 'audio transcoder ok');
-
 };
 
 exports.transcoder = transcoder;
