@@ -108,14 +108,14 @@ const audioTranscoder = new aws.lambda.Function("audioTranscoder",{
 
 const dynamoEvent = new aws.dynamodb.TableEventSubscription("transcoderTrigger",article,audioTranscoder,{batchSize:100,startingPosition:"LATEST"})
 
-const rssReaderEvent = new aws.cloudwatch.EventRule("event",{scheduleExpression:'rate(2400 minutes)'});
+const rssReaderEventRule = new aws.cloudwatch.EventRule("event",{scheduleExpression:'rate(2400 minutes)'});
 
-const test = new aws.cloudwatch.EventRuleEventSubscription("event",rssReaderEvent,rssReader);
+const rssEventSubscription = new aws.cloudwatch.EventRuleEventSubscription("event",rssReaderEventRule,rssReader);
 
 exports.bucket = bucket;
 exports.article = article;
 exports.dynamoEvent = dynamoEvent;
 exports.rssReader = rssReader;
-exports.rssReaderEvent = rssReaderEvent;
-exports.test = test;
+exports.rssReaderEventRule = rssReaderEventRule;
+exports.rssEventSubscription = rssEventSubscription;
 exports.audioTranscoder = audioTranscoder;
