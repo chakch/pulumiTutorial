@@ -4,7 +4,7 @@ const cloud = require("@pulumi/cloud");
 const reader = require('./rss-reader/handler').hello;
 const audioReader = require('./audio-transcoder/handler');
 
-const tables = new aws.dynamodb.Table("article",{
+const article = new aws.dynamodb.Table("article",{
    attributes: [
        {name: "id", type: "S"}
           ],
@@ -35,7 +35,7 @@ const rolePolicy = new aws.iam.RolePolicy("myrolepolicy", {
     policy: JSON.stringify({
         Version: "2012-10-17",
         Statement: [{
-            Action: [ "polly:*","cloudwatch:*" ],
+            Action: [ "polly:*","cloudwatch:*","s3:*","dynamodb:*" ],
             Effect: "Allow",
             Resource: "*"
         }]
@@ -44,7 +44,7 @@ const rolePolicy = new aws.iam.RolePolicy("myrolepolicy", {
 
 //const event = new cloud.timer.daily("reader",reader);
 
-const test = new aws.lambda.Function("reader",{
+const rssReader = new aws.lambda.Function("rssReader",{
     code: new pulumi.asset.AssetArchive({
         ".": new pulumi.asset.FileArchive(
             "rss-reader",
@@ -54,8 +54,8 @@ const test = new aws.lambda.Function("reader",{
     handler: "handler.hello",
     runtime: aws.lambda.NodeJS8d10Runtime,
 });
-//const test = new aws.dynamodb.TableEventSubscription("test",tables,audioReader,{batchSize:100,startingPosition:"LATEST"})
+const dynamoEvent = new aws.dynamodb.TableEventSubscription("readerTrigger",article,rssReader,{batchSize:100,startingPosition:"LATEST"})
 
-exports.tables = tables;
-//exports.event = event;
-exports.test = test;
+exports.article = article;
+exports.dynamoEvent = dynamoEvent;
+exports.rssReader = rssReader;
