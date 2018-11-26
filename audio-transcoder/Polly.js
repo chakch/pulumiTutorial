@@ -6,9 +6,9 @@ const convertTextToVoice = function(data){
     const params = {
         OutputFormat: "mp3",
         SampleRate: "8000",
-        Text: "data",
+        Text: data,
         TextType: "text",
-        VoiceId: 'Celine'
+        VoiceId: 'Amy'
     };
     return polly.synthesizeSpeech(params).promise();
 

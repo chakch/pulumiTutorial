@@ -1,11 +1,10 @@
 const AWS = require('aws-sdk');
 
-const s3 ={};
-const saveFile = (file) => {
+const saveFile = (id,file) => {
     const S3 = new AWS.S3();
     let params = {
         Bucket : "serverless-xke-demo-file-saver",
-        Key : "key.mp3",
+        Key : `${id}.mp3`,
         Body : file,
         ContentType:'audio/mp3'
     };
@@ -13,5 +12,4 @@ const saveFile = (file) => {
         .catch(e => console.log({e}));
 };
 
-s3.saveFile = saveFile;
-module.exports = s3;
+exports.saveFile = saveFile;
