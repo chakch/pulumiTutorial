@@ -1,7 +1,6 @@
 const aws = require("@pulumi/aws");
 const pulumi = require('@pulumi/pulumi');
 
-
 const bucket = new aws.s3.Bucket("mchaaben-bucket-lab");
 
 const article = new aws.dynamodb.Table("article",{
