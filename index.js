@@ -1,7 +1,5 @@
 const aws = require("@pulumi/aws");
 const pulumi = require('@pulumi/pulumi');
-const cloud = require('@pulumi/cloud');
-
 
 const article = new aws.dynamodb.Table("article",{
    attributes: [
@@ -33,7 +31,10 @@ new aws.iam.RolePolicy("rssReaderPolicy", {
     policy: JSON.stringify({
         Version: "2012-10-17",
         Statement: [{
-            Action: [ "cloudwatch:*","dynamodb:*" ],
+            Action: [ "cloudwatch:*","dynamodb:*",        "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:DescribeLogStreams"],
             Effect: "Allow",
             Resource: "*"
         }]
@@ -49,6 +50,12 @@ const rssReader = new aws.lambda.Function("rssReader",{
     role: rssReaderRole.arn,
     handler: "handler.hello",
     runtime: aws.lambda.NodeJS8d10Runtime,
+    environment:{
+        variables:{
+            ARTICLE_TABLE: article.name
+        }
+    },
+    timeout:30
 });
 
 const audioTrancoderRole = new aws.iam.Role("audioTrancoderRole", {
@@ -70,7 +77,10 @@ new aws.iam.RolePolicy("audioTranscoderPolicy", {
     policy: JSON.stringify({
         Version: "2012-10-17",
         Statement: [{
-            Action: [ "polly:*","cloudwatch:*","s3:*","dynamodb:*" ],
+            Action: [ "polly:*","cloudwatch:*","s3:*","dynamodb:*","logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:DescribeLogStreams" ],
             Effect: "Allow",
             Resource: "*"
         }]
@@ -86,12 +96,15 @@ const audioTranscoder = new aws.lambda.Function("audioTranscoder",{
     role: audioTrancoderRole.arn,
     handler: "handler.transcoder",
     runtime: aws.lambda.NodeJS8d10Runtime,
+    timeout:30
 });
 
 const dynamoEvent = new aws.dynamodb.TableEventSubscription("transcoderTrigger",article,audioTranscoder,{batchSize:100,startingPosition:"LATEST"})
 
-const rssReaderEvent = new aws.cloudwatch.EventRule("event",{scheduleExpression:'rate(5 minutes)'});
+const rssReaderEvent = new aws.cloudwatch.EventRule("event",{scheduleExpression:'rate(2400 minutes)'});
+
 const test = new aws.cloudwatch.EventRuleEventSubscription("event",rssReaderEvent,rssReader);
+
 exports.article = article;
 exports.dynamoEvent = dynamoEvent;
 exports.rssReader = rssReader;

@@ -4,7 +4,7 @@ const s3 ={};
 const saveFile = (file) => {
     const S3 = new AWS.S3();
     let params = {
-        Bucket : "serverless-xke-demo",
+        Bucket : "serverless-xke-demo-file-saver",
         Key : "key.mp3",
         Body : file,
         ContentType:'audio/mp3'

@@ -5,10 +5,10 @@ const s3 = require('./S3');
 const transcoder = (event, context, callback) => {
 
     console.log(event);
-    event.Records.forEach( record => {
+    const res = event.Records.map( record => {
         const description = record.dynamodb.NewImage.description.S;
         console.log(description);
-        polly.convertTextToVoice(description)
+        return polly.convertTextToVoice(description)
             .then((audioStream) => {
                 console.log(audioStream);
                 return s3.saveFile(audioStream.AudioStream)
@@ -16,7 +16,7 @@ const transcoder = (event, context, callback) => {
             .then(() => console.log('saved',))
             .catch((e) => console.log('error',e));
     });
-
+    Promise.all(res);
     callback(null, 'audio transcoder ok');
 };
 
